@@ -202,7 +202,7 @@ public class FileUtils {
                 List<StorageVolume> storageVolumes = storageManager.getStorageVolumes();
                 for (StorageVolume volume : storageVolumes) {
                     if (
-                        "primary".equalsIgnoreCase(authority) ||
+                        PRIMARY_VOLUME_NAME.equals(authority) ||
                         (volume.getUuid() != null && volume.getUuid().equals(authority))
                         ) {
                         storageVolume = volume;
@@ -213,6 +213,8 @@ public class FileUtils {
                 if (storageVolume != null) {
                     String rootPath = storageVolume.getDirectory().getAbsolutePath();
                     absolutePath = rootPath + "/" + path;
+                } else if ("raw".equals(authority)) {
+                    absolutePath = path;
                 }
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
