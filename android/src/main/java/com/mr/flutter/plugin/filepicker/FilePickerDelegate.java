@@ -121,7 +121,7 @@ public class FilePickerDelegate implements PluginRegistry.ActivityResultListener
                                 return;
                             } else if (type.equals("save") && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                 Log.d(FilePickerDelegate.TAG, "[SaveFile] File URI:" + uri.toString());
-                                final String filePath = FileUtils.getAbsolutePathFromUri(uri, activity);
+                                final String filePath = FileUtils.getAbsolutePathFromUri(uri, true, activity);
                                 if(filePath != null) {
                                     Log.d(FilePickerDelegate.TAG, "[SaveFile] File Path:" + filePath);
                                     finishWithSuccess(filePath);

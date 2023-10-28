@@ -130,7 +130,7 @@ public class FileUtils {
         FileOutputStream fos = null;
         final FileInfo.Builder fileInfo = new FileInfo.Builder();
         final String fileName = FileUtils.getFileName(uri, context);
-        final String path = context.getCacheDir().getAbsolutePath() + "/file_picker/" + (fileName != null ? fileName : System.currentTimeMillis());
+        final String path = getAbsolutePathFromUri(uri, false, context);
 
         final File file = new File(path);
 
@@ -183,7 +183,7 @@ public class FileUtils {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Nullable
     @SuppressWarnings("deprecation")
-    public static String getAbsolutePathFromUri(Uri uri, Context context) {
+    public static String getAbsolutePathFromUri(Uri uri, boolean delete, Context context) {
         String absolutePath = null;
         if (DocumentsContract.isDocumentUri(context, uri)) {
             // DocumentProvider
@@ -193,7 +193,9 @@ public class FileUtils {
             String path = split[1];
 
             try {
-                DocumentsContract.deleteDocument(context.getContentResolver(), uri);
+                if (delete) {
+                    DocumentsContract.deleteDocument(context.getContentResolver(), uri);
+                }
 
                 StorageManager storageManager = (StorageManager) context.getSystemService(Context.STORAGE_SERVICE);
                 StorageVolume storageVolume = null;
