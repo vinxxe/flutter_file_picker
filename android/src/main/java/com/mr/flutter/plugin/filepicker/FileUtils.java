@@ -132,6 +132,11 @@ public class FileUtils {
         final String fileName = FileUtils.getFileName(uri, context);
         final String path = getAbsolutePathFromUri(uri, false, context);
 
+        if (path == null) {
+            Log.e(TAG, "Failed to retrieve path from uri: " + uri.toString(), null);
+            return null;
+        }
+
         final File file = new File(path);
 
         if(!file.exists()) {
